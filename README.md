@@ -1,6 +1,6 @@
-# Taktile Coding Challenge
+# Funktools
 
-Your challenge is to implement `fold` in the language of your choice.
+This repository holds the code for `Funktools` that implements the `fold` function.
 
 ## Description
 
@@ -17,30 +17,13 @@ and returns a B. E.g., the `sum` of an array is a special case of fold, where
 
 You can find more information on [Wikipedia](https://en.wikipedia.org/wiki/Fold_(higher-order_function)).
 
-## Instructions
 
-Fork this repository.
+## Approach
 
-Implement `fold` in any language of your choice. Don't directly use the `fold` that is
-already part of your language (see the list on Wikipedia).
+- Implement barebones fold to replicate `reduce` function from `functools`
+- Add test-cases to verify parity with `reduce`
+- If time permits, add fold-right & fold-left operations.
 
-Send us a link to your fork **within 1 week** of being invited to participate on this challenge.
+## Scope
 
-## Timebox
-
-Aim to use about 1 hour of time on the solution, don't use more than 2 hours. Here are some
-criteria which we use to judge your implementation:
-
-* Documentation
-* Packaging
-* Testing
-* Readability of code
-* Correctness of implementation
-* Generality
-* Correntness of types (if applicable)
-* Speed of implemenation
-
-Please don't stress if your solution isn't perfect. With a timebox of at most 2 hours, 
-you most likely won't be able to check all the boxes above. This challenge is intended as an 
-exercise in tradeoffs.
-
+- No parallelism. Accumulator functions that are associative could be parallelized, but it is beyond the scope.
