@@ -24,7 +24,9 @@ minus.__name__ = "-"
 @pytest.mark.parametrize("seq, acc, res", [
     ([i for i in range(1, 4)], 0, 6),
     (["fold", " like", " protein"], "", "fold like protein"),
-    ([1, 2, 3], None, 6)
+    ([1, 2, 3], None, 6),
+    ((1, 2.3, 3, 4.2), 0.0, 10.5),
+    ([], 0.0, 0.0),
 ])
 def test_plus_fold(seq, acc, res):
     assert fold(seq, plus, acc) == res
