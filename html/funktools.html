@@ -32,13 +32,13 @@
 def fold(x: Iterable, func: Callable, init_val=None, foldr=False, debug=False):
     &#34;&#34;&#34;
     fold is a higher-order-function that processes a data structure using a given combination operation
-     to build up a return value. (https://en.wikipedia.org/wiki/Fold_%28higher-order_function%29)
-    :param x: iterable sequence to be processed
-    :param func: accumulator function
-    :param init_val: initial value (In case of None, folding starts from 1st element of sequence)
-    :param foldr: evaluation order set to right-most element first if True (default = False)
-    :param debug: prints structural transformation on each iteration.
-    :return: folded/accumulated result
+     to build up a return value. (https://en.wikipedia.org/wiki/Fold_%28higher-order_function%29)&lt;br&gt;
+    :param x: iterable sequence to be processed&lt;br&gt;
+    :param func: accumulator function&lt;br&gt;
+    :param init_val: initial value (In case of None, folding starts from 1st element of sequence)&lt;br&gt;
+    :param foldr: evaluation order set to right-most element first if True (default = False)&lt;br&gt;
+    :param debug: prints structural transformation on each iteration.&lt;br&gt;
+    :return: folded/accumulated result&lt;br&gt;
     &#34;&#34;&#34;
     it = iter(reversed(x)) if foldr else iter(x)
     if init_val is None:
@@ -54,7 +54,10 @@ def fold(x: Iterable, func: Callable, init_val=None, foldr=False, debug=False):
     for element in it:
         res = func(element, res) if foldr else func(res, element)
         if debug:
-            infix = f&#34;{element}{func.__name__}({infix})&#34; if foldr else f&#34;({infix}){func.__name__}{element}&#34;
+            if callable(element):
+                infix = f&#34;{element.__name__}{func.__name__}({infix})&#34; if foldr else f&#34;({infix}){func.__name__}{element.__name__}&#34;
+            else:
+                infix = f&#34;{element}{func.__name__}({infix})&#34; if foldr else f&#34;({infix}){func.__name__}{element}&#34;
             print(f&#34;{infix}\t={res}&#34;)
     assert type(res) == rtype  # sanity check
     return res</code></pre>
@@ -72,13 +75,13 @@ def fold(x: Iterable, func: Callable, init_val=None, foldr=False, debug=False):
 </code></dt>
 <dd>
 <div class="desc"><p>fold is a higher-order-function that processes a data structure using a given combination operation
-to build up a return value. (<a href="https://en.wikipedia.org/wiki/Fold_%28higher-order_function%29">https://en.wikipedia.org/wiki/Fold_%28higher-order_function%29</a>)
-:param x: iterable sequence to be processed
-:param func: accumulator function
-:param init_val: initial value (In case of None, folding starts from 1st element of sequence)
-:param foldr: evaluation order set to right-most element first if True (default = False)
-:param debug: prints structural transformation on each iteration.
-:return: folded/accumulated result</p></div>
+to build up a return value. (<a href="https://en.wikipedia.org/wiki/Fold_%28higher-order_function%29">https://en.wikipedia.org/wiki/Fold_%28higher-order_function%29</a>)<br>
+:param x: iterable sequence to be processed<br>
+:param func: accumulator function<br>
+:param init_val: initial value (In case of None, folding starts from 1st element of sequence)<br>
+:param foldr: evaluation order set to right-most element first if True (default = False)<br>
+:param debug: prints structural transformation on each iteration.<br>
+:return: folded/accumulated result<br></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -86,13 +89,13 @@ to build up a return value. (<a href="https://en.wikipedia.org/wiki/Fold_%28high
 <pre><code class="python">def fold(x: Iterable, func: Callable, init_val=None, foldr=False, debug=False):
     &#34;&#34;&#34;
     fold is a higher-order-function that processes a data structure using a given combination operation
-     to build up a return value. (https://en.wikipedia.org/wiki/Fold_%28higher-order_function%29)
-    :param x: iterable sequence to be processed
-    :param func: accumulator function
-    :param init_val: initial value (In case of None, folding starts from 1st element of sequence)
-    :param foldr: evaluation order set to right-most element first if True (default = False)
-    :param debug: prints structural transformation on each iteration.
-    :return: folded/accumulated result
+     to build up a return value. (https://en.wikipedia.org/wiki/Fold_%28higher-order_function%29)&lt;br&gt;
+    :param x: iterable sequence to be processed&lt;br&gt;
+    :param func: accumulator function&lt;br&gt;
+    :param init_val: initial value (In case of None, folding starts from 1st element of sequence)&lt;br&gt;
+    :param foldr: evaluation order set to right-most element first if True (default = False)&lt;br&gt;
+    :param debug: prints structural transformation on each iteration.&lt;br&gt;
+    :return: folded/accumulated result&lt;br&gt;
     &#34;&#34;&#34;
     it = iter(reversed(x)) if foldr else iter(x)
     if init_val is None:
@@ -108,7 +111,10 @@ to build up a return value. (<a href="https://en.wikipedia.org/wiki/Fold_%28high
     for element in it:
         res = func(element, res) if foldr else func(res, element)
         if debug:
-            infix = f&#34;{element}{func.__name__}({infix})&#34; if foldr else f&#34;({infix}){func.__name__}{element}&#34;
+            if callable(element):
+                infix = f&#34;{element.__name__}{func.__name__}({infix})&#34; if foldr else f&#34;({infix}){func.__name__}{element.__name__}&#34;
+            else:
+                infix = f&#34;{element}{func.__name__}({infix})&#34; if foldr else f&#34;({infix}){func.__name__}{element}&#34;
             print(f&#34;{infix}\t={res}&#34;)
     assert type(res) == rtype  # sanity check
     return res</code></pre>

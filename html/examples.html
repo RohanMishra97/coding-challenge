@@ -26,7 +26,7 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from typing import List
+<pre><code class="python">from typing import List, Tuple
 from src.funktools import fold
 
 
@@ -118,41 +118,88 @@ def example_4():
     print(f&#34;fold({x},{minus.__name__}, {x0}, foldr={True}) = {res2}&#34;)
 
 
-def main():
+def example_5():
     &#34;&#34;&#34;
-    Comparison of foldl &amp; foldr.&lt;br&gt;
-    *foldl*
+    Using fold to perform Map operation (squaring each element)
     ```console
-    (10)-1      =9
-    ((10)-1)-3  =6
-    (((10)-1)-3)-4      =2
-    ((((10)-1)-3)-4)-5  =-3
-    fold([1, 3, 4, 5],-, 10, foldr=False) = -3
-    ```
-    *foldr*
-    ```console
-    5-(10)      =-5
-    4-(5-(10))  =9
-    3-(4-(5-(10)))      =-6
-    1-(3-(4-(5-(10))))  =7
-    fold([1, 3, 4, 5],-, 10, foldr=True) = 7
+    ([])sq_mp1  =[1]
+    (([])sq_mp1)sq_mp2  =[1, 4]
+    ((([])sq_mp1)sq_mp2)sq_mp3  =[1, 4, 9]
+    fold([1, 2, 3],sq_mp, []) = [1, 4, 9]
     ```
     &#34;&#34;&#34;
+    square_map = lambda x, y: x + [y ** 2]
+    square_map.__name__ = &#34;sq_map&#34;
+    x: List[int] = [i for i in range(1, 4)]
+    x0: List = []
+    res = fold(x, square_map, x0, debug=True)
+    print(f&#34;fold({x},{square_map.__name__}, {x0}) = {res}&#34;)
+
+
+def example_6():
+    &#34;&#34;&#34;
+    Using fold to perform Filter operation (filter only even terms)
+    ```console
+    ([])is_even1        =[]
+    (([])is_even1)is_even2      =[2]
+    ((([])is_even1)is_even2)is_even3    =[2]
+    fold([1, 2, 3],is_even,[])=[2]
+    ```
+    &#34;&#34;&#34;
+    even_fltr = lambda x, y: x + [y] if y % 2 == 0 else x
+    even_fltr.__name__ = &#34;is_even&#34;
+    x: List[int] = [i for i in range(1,4)]
+    x0: List = []
+    res = fold(x, even_fltr, x0, debug=True)
+    print(f&#34;fold({x},{even_fltr.__name__},{x0})={res}&#34;)
+
+
+def example_7():
+    &#34;&#34;&#34;
+    Using fold to generate Prefix List.
+    ```console
+    ([])pre1    =[[1]]
+    (([])pre1)pre3      =[[1], [1, 3]]
+    ((([])pre1)pre3)pre4        =[[1], [1, 3], [1, 3, 4]]
+    (((([])pre1)pre3)pre4)pre5  =[[1], [1, 3], [1, 3, 4], [1, 3, 4, 5]]
+    fold([1, 3, 4, 5],pre, []) = [[1], [1, 3], [1, 3, 4], [1, 3, 4, 5]]
+    ```
+    &#34;&#34;&#34;
+    pre = lambda x, y: [[y]] if len(x) == 0 else x + [x[-1] + [y]]
+    pre.__name__ = &#34;pre&#34;
     x: List[int] = [1, 3, 4, 5]
-    x0 = 10
-    minus = lambda a, b: a - b
-    minus.__name__ = &#34;-&#34;
-    res1 = fold(x, minus, x0, foldr=False, debug=True)
-    print(f&#34;fold({x},{minus.__name__}, {x0}, foldr={False}) = {res1}&#34;)
-    res2 = fold(x, minus, x0, foldr=True, debug=True)
-    print(f&#34;fold({x},{minus.__name__}, {x0}, foldr={True}) = {res2}&#34;)
+    x0 = []
+    res = fold(x, pre, x0, debug=True)
+    print(f&#34;fold({x},{pre.__name__}, {x0}) = {res}&#34;)
+
+
+def example_8():
+    &#34;&#34;&#34;
+    Using fold to compose functions.
+    ```console
+    square(10.0)        =100.0
+    inverse(square(10.0))       =0.01
+    twice(inverse(square(10.0)))        =0.02
+    ```
+    &#34;&#34;&#34;
+    def twice(x): return 2 * x;
+    def square(x): return x ** 2;
+    def inverse(x): return 1 / x;
+    def compose(x, y): return x(y);
+    compose.__name__ = &#34;&#34;
+    res = fold([twice, inverse, square], compose, 10.0, foldr=True, debug=True)
+    print(res)
 
 
 if __name__ == &#39;__main__&#39;:
     example_1()
     example_2()
     example_3()
-    example_4()</code></pre>
+    example_4()
+    example_5()
+    example_6()
+    example_7()
+    example_8()</code></pre>
 </details>
 </section>
 <section>
@@ -316,57 +363,133 @@ fold([1, 3, 4, 5],-, 10, foldr=True) = 7
     print(f&#34;fold({x},{minus.__name__}, {x0}, foldr={True}) = {res2}&#34;)</code></pre>
 </details>
 </dd>
-<dt id="examples.main"><code class="name flex">
-<span>def <span class="ident">main</span></span>(<span>)</span>
+<dt id="examples.example_5"><code class="name flex">
+<span>def <span class="ident">example_5</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Comparison of foldl &amp; foldr.<br>
-<em>foldl</em></p>
-<pre><code class="language-console">(10)-1      =9
-((10)-1)-3  =6
-(((10)-1)-3)-4      =2
-((((10)-1)-3)-4)-5  =-3
-fold([1, 3, 4, 5],-, 10, foldr=False) = -3
-</code></pre>
-<p><em>foldr</em></p>
-<pre><code class="language-console">5-(10)      =-5
-4-(5-(10))  =9
-3-(4-(5-(10)))      =-6
-1-(3-(4-(5-(10))))  =7
-fold([1, 3, 4, 5],-, 10, foldr=True) = 7
+<div class="desc"><p>Using fold to perform Map operation (squaring each element)</p>
+<pre><code class="language-console">([])sq_mp1  =[1]
+(([])sq_mp1)sq_mp2  =[1, 4]
+((([])sq_mp1)sq_mp2)sq_mp3  =[1, 4, 9]
+fold([1, 2, 3],sq_mp, []) = [1, 4, 9]
 </code></pre></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def main():
+<pre><code class="python">def example_5():
     &#34;&#34;&#34;
-    Comparison of foldl &amp; foldr.&lt;br&gt;
-    *foldl*
+    Using fold to perform Map operation (squaring each element)
     ```console
-    (10)-1      =9
-    ((10)-1)-3  =6
-    (((10)-1)-3)-4      =2
-    ((((10)-1)-3)-4)-5  =-3
-    fold([1, 3, 4, 5],-, 10, foldr=False) = -3
-    ```
-    *foldr*
-    ```console
-    5-(10)      =-5
-    4-(5-(10))  =9
-    3-(4-(5-(10)))      =-6
-    1-(3-(4-(5-(10))))  =7
-    fold([1, 3, 4, 5],-, 10, foldr=True) = 7
+    ([])sq_mp1  =[1]
+    (([])sq_mp1)sq_mp2  =[1, 4]
+    ((([])sq_mp1)sq_mp2)sq_mp3  =[1, 4, 9]
+    fold([1, 2, 3],sq_mp, []) = [1, 4, 9]
     ```
     &#34;&#34;&#34;
+    square_map = lambda x, y: x + [y ** 2]
+    square_map.__name__ = &#34;sq_map&#34;
+    x: List[int] = [i for i in range(1, 4)]
+    x0: List = []
+    res = fold(x, square_map, x0, debug=True)
+    print(f&#34;fold({x},{square_map.__name__}, {x0}) = {res}&#34;)</code></pre>
+</details>
+</dd>
+<dt id="examples.example_6"><code class="name flex">
+<span>def <span class="ident">example_6</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Using fold to perform Filter operation (filter only even terms)</p>
+<pre><code class="language-console">([])is_even1        =[]
+(([])is_even1)is_even2      =[2]
+((([])is_even1)is_even2)is_even3    =[2]
+fold([1, 2, 3],is_even,[])=[2]
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def example_6():
+    &#34;&#34;&#34;
+    Using fold to perform Filter operation (filter only even terms)
+    ```console
+    ([])is_even1        =[]
+    (([])is_even1)is_even2      =[2]
+    ((([])is_even1)is_even2)is_even3    =[2]
+    fold([1, 2, 3],is_even,[])=[2]
+    ```
+    &#34;&#34;&#34;
+    even_fltr = lambda x, y: x + [y] if y % 2 == 0 else x
+    even_fltr.__name__ = &#34;is_even&#34;
+    x: List[int] = [i for i in range(1,4)]
+    x0: List = []
+    res = fold(x, even_fltr, x0, debug=True)
+    print(f&#34;fold({x},{even_fltr.__name__},{x0})={res}&#34;)</code></pre>
+</details>
+</dd>
+<dt id="examples.example_7"><code class="name flex">
+<span>def <span class="ident">example_7</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Using fold to generate Prefix List.</p>
+<pre><code class="language-console">([])pre1    =[[1]]
+(([])pre1)pre3      =[[1], [1, 3]]
+((([])pre1)pre3)pre4        =[[1], [1, 3], [1, 3, 4]]
+(((([])pre1)pre3)pre4)pre5  =[[1], [1, 3], [1, 3, 4], [1, 3, 4, 5]]
+fold([1, 3, 4, 5],pre, []) = [[1], [1, 3], [1, 3, 4], [1, 3, 4, 5]]
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def example_7():
+    &#34;&#34;&#34;
+    Using fold to generate Prefix List.
+    ```console
+    ([])pre1    =[[1]]
+    (([])pre1)pre3      =[[1], [1, 3]]
+    ((([])pre1)pre3)pre4        =[[1], [1, 3], [1, 3, 4]]
+    (((([])pre1)pre3)pre4)pre5  =[[1], [1, 3], [1, 3, 4], [1, 3, 4, 5]]
+    fold([1, 3, 4, 5],pre, []) = [[1], [1, 3], [1, 3, 4], [1, 3, 4, 5]]
+    ```
+    &#34;&#34;&#34;
+    pre = lambda x, y: [[y]] if len(x) == 0 else x + [x[-1] + [y]]
+    pre.__name__ = &#34;pre&#34;
     x: List[int] = [1, 3, 4, 5]
-    x0 = 10
-    minus = lambda a, b: a - b
-    minus.__name__ = &#34;-&#34;
-    res1 = fold(x, minus, x0, foldr=False, debug=True)
-    print(f&#34;fold({x},{minus.__name__}, {x0}, foldr={False}) = {res1}&#34;)
-    res2 = fold(x, minus, x0, foldr=True, debug=True)
-    print(f&#34;fold({x},{minus.__name__}, {x0}, foldr={True}) = {res2}&#34;)</code></pre>
+    x0 = []
+    res = fold(x, pre, x0, debug=True)
+    print(f&#34;fold({x},{pre.__name__}, {x0}) = {res}&#34;)</code></pre>
+</details>
+</dd>
+<dt id="examples.example_8"><code class="name flex">
+<span>def <span class="ident">example_8</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Using fold to compose functions.</p>
+<pre><code class="language-console">square(10.0)        =100.0
+inverse(square(10.0))       =0.01
+twice(inverse(square(10.0)))        =0.02
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def example_8():
+    &#34;&#34;&#34;
+    Using fold to compose functions.
+    ```console
+    square(10.0)        =100.0
+    inverse(square(10.0))       =0.01
+    twice(inverse(square(10.0)))        =0.02
+    ```
+    &#34;&#34;&#34;
+    def twice(x): return 2 * x;
+    def square(x): return x ** 2;
+    def inverse(x): return 1 / x;
+    def compose(x, y): return x(y);
+    compose.__name__ = &#34;&#34;
+    res = fold([twice, inverse, square], compose, 10.0, foldr=True, debug=True)
+    print(res)</code></pre>
 </details>
 </dd>
 </dl>
@@ -381,12 +504,15 @@ fold([1, 3, 4, 5],-, 10, foldr=True) = 7
 </div>
 <ul id="index">
 <li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="">
+<ul class="two-column">
 <li><code><a title="examples.example_1" href="#examples.example_1">example_1</a></code></li>
 <li><code><a title="examples.example_2" href="#examples.example_2">example_2</a></code></li>
 <li><code><a title="examples.example_3" href="#examples.example_3">example_3</a></code></li>
 <li><code><a title="examples.example_4" href="#examples.example_4">example_4</a></code></li>
-<li><code><a title="examples.main" href="#examples.main">main</a></code></li>
+<li><code><a title="examples.example_5" href="#examples.example_5">example_5</a></code></li>
+<li><code><a title="examples.example_6" href="#examples.example_6">example_6</a></code></li>
+<li><code><a title="examples.example_7" href="#examples.example_7">example_7</a></code></li>
+<li><code><a title="examples.example_8" href="#examples.example_8">example_8</a></code></li>
 </ul>
 </li>
 </ul>

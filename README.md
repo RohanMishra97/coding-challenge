@@ -17,7 +17,21 @@ and returns a B. E.g., the `sum` of an array is a special case of fold, where
 
 You can find more information on [Wikipedia](https://en.wikipedia.org/wiki/Fold_(higher-order_function)).
 
-
+## Code Structure
+```console
+│   INSTRUCTIONS.md     | Given Instructions
+│   README.md           
+│   requirements.txt    | Dependencies
+├───html                | PyDoc Documentation
+│       examples.html   
+│       funktools.html
+├───src
+│   │── examples.py     | Examples of using fold
+│   │── funktools.py    | Implementation of fold
+│   │── __init__.py
+└───tests
+    │   test_funktools.py | Unit tests
+```
 ## Approach
 
 - Implement barebones fold to replicate `reduce` function from `functools`
