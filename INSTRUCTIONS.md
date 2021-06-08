@@ -37,8 +37,8 @@ criteria which we use to judge your implementation:
 * Readability of code
 * Correctness of implementation
 * Generality
-* Correntness of types (if applicable)
-* Speed of implemenation
+* Correctness of types (if applicable)
+* Speed of implementation
 
 Please don't stress if your solution isn't perfect. With a timebox of at most 2 hours, 
 you most likely won't be able to check all the boxes above. This challenge is intended as an 
