@@ -22,8 +22,13 @@ You can find more information on [Wikipedia](https://en.wikipedia.org/wiki/Fold_
 
 - Implement barebones fold to replicate `reduce` function from `functools`
 - Add test-cases to verify parity with `reduce`
-- If time permits, add fold-right & fold-left operations.
+- Add fold-right & fold-left operations.
+- Add debug feature, print status on each iteration
+- Test other fold examples, like doing map or filters
 
 ## Scope
 
 - No parallelism. Accumulator functions that are associative could be parallelized, but it is beyond the scope.
+
+## Resources
+- TODO - Add examples for [these](https://www.youtube.com/watch?v=46dksIrx6jQ) (maybe not the last) 
