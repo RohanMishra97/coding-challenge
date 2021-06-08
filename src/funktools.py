@@ -1,8 +1,8 @@
 from collections.abc import Iterable, Callable
 
 
-def fold(x: Iterable, func: Callable, init_val=None):
-    it = iter(x)
+def fold(x: Iterable, func: Callable, init_val=None, foldr=False):
+    it = iter(reversed(x)) if foldr else iter(x)
     if init_val is None:
         try:
             res = next(it)
@@ -13,6 +13,6 @@ def fold(x: Iterable, func: Callable, init_val=None):
         res = init_val
         rtype = type(init_val)
     for element in it:
-        res = func(res, element)
+        res = func(element, res) if foldr else func(res, element)
     assert type(res) == rtype  # sanity check
     return res
