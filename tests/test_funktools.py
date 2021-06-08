@@ -54,3 +54,13 @@ def test_rfold():
     x0 = 10
     res = fold(x, minus, x0, foldr=True)
     assert res == 7
+
+
+def test_compose():
+    def twice(x): return 2 * x;
+    def square(x): return x ** 2;
+    def inverse(x): return 1 / x;
+    def compose(x, y): return x(y);
+    compose.__name__ = ""
+    res = fold([twice, inverse, square], compose, 10.0, foldr=True, debug=True)
+    assert res == 0.02

@@ -26,7 +26,10 @@ def fold(x: Iterable, func: Callable, init_val=None, foldr=False, debug=False):
     for element in it:
         res = func(element, res) if foldr else func(res, element)
         if debug:
-            infix = f"{element}{func.__name__}({infix})" if foldr else f"({infix}){func.__name__}{element}"
+            if callable(element):
+                infix = f"{element.__name__}{func.__name__}({infix})" if foldr else f"({infix}){func.__name__}{element.__name__}"
+            else:
+                infix = f"{element}{func.__name__}({infix})" if foldr else f"({infix}){func.__name__}{element}"
             print(f"{infix}\t={res}")
     assert type(res) == rtype  # sanity check
     return res

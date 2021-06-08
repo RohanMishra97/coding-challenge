@@ -145,6 +145,24 @@ def example_7():
     print(f"fold({x},{pre.__name__}, {x0}) = {res}")
 
 
+def example_8():
+    """
+    Using fold to compose functions.
+    ```console
+    square(10.0)	=100.0
+    inverse(square(10.0))	=0.01
+    twice(inverse(square(10.0)))	=0.02
+    ```
+    """
+    def twice(x): return 2 * x;
+    def square(x): return x ** 2;
+    def inverse(x): return 1 / x;
+    def compose(x, y): return x(y);
+    compose.__name__ = ""
+    res = fold([twice, inverse, square], compose, 10.0, foldr=True, debug=True)
+    print(res)
+
+
 if __name__ == '__main__':
     example_1()
     example_2()
@@ -153,3 +171,4 @@ if __name__ == '__main__':
     example_5()
     example_6()
     example_7()
+    example_8()
